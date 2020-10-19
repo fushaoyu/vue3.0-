@@ -16,7 +16,7 @@
 <script>
 //对于所有不带参数的 v-model，请确保分别将 prop 和 event 命名更改为 modelValue 和 update:modelValue
 //详情查看https://vue-docs-next-zh-cn.netlify.app/guide/migration/v-model.html#%E8%BF%81%E7%A7%BB%E7%AD%96%E7%95%A5
-import { onMounted, reactive, computed, toRefs } from 'vue';
+import { onMounted, reactive, computed, toRefs, ref } from 'vue';
 export default {
   name: 'MyComponentInput',
   props: {
@@ -50,10 +50,10 @@ export default {
     },
   },
   setup(props, { emit }) {
-    const size = props.size;
+    const time = ref(null);
     const dynamic = computed(() => {
       let c = '';
-      switch (size) {
+      switch (props.size) {
         case 'large':
           c = 'large';
           break;
@@ -68,8 +68,14 @@ export default {
     });
     onMounted(() => {});
     const emitValue = (e) => {
-      let value = e.target.value;
-      emit('update:modelValue', value);
+      if (time.value) {
+        time.value = null;
+        clearTimeout(time.value);
+      }
+      time.value = setTimeout(() => {
+        let value = e.target.value;
+        emit('update:modelValue', value);
+      }, 9000);
     };
     return {
       dynamic,

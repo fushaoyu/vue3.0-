@@ -17,11 +17,31 @@
       <MyComponentCheckbox v-model="CheckboxValue"></MyComponentCheckbox>
       <h3 id="ji-chu-yong-fa">选择的为：{{ CheckboxValue.join(',') }}</h3>
     </div>
+
+    <div class="demo-block">
+      <h3 id="ji-chu-yong-fa">Select 选择器</h3>
+      <MyComponentSelect v-model="SelectValue"></MyComponentSelect>
+      <h3 id="ji-chu-yong-fa">选择的为：{{ SelectValue }}</h3>
+    </div>
+
+    <div class="demo-block">
+      <h3 id="ji-chu-yong-fa">InputNumber 计数器</h3>
+      <MyComponentInputNumber v-model="InputNumber"></MyComponentInputNumber>
+      <h3 id="ji-chu-yong-fa">选择的为：{{ InputNumber }}</h3>
+    </div>
+
+    <div class="demo-block">
+      <h3 id="ji-chu-yong-fa">Dialog 对话框</h3>
+      <MyComponentDialog v-model="visible" @notarize="notarize" @cancel="cancel">
+        <div>这是一段信息</div>
+      </MyComponentDialog>
+      <h3 id="ji-chu-yong-fa" @click="openDialog">点击打开 Dialog</h3>
+    </div>
   </div>
 </template>
 
 <script>
-import { reactive, toRefs, watchEffect } from 'vue';
+import { reactive, toRefs, watchEffect, onMounted } from 'vue';
 export default {
   name: 'baseSubassembly',
   setup() {
@@ -43,13 +63,33 @@ export default {
       inputValue: '', //输入框的值
       radioValue: '', //单选框的值
       CheckboxValue: [], //多选框的值
+      SelectValue: '', //下拉框的值
+      InputNumber: '1', //计数器的值
+      visible: false,
+    });
+    //Dialog打开
+    const openDialog = () => {
+      state.visible = true;
+    };
+    //Dialog确认
+    const notarize = () => {
+      console.log('确认');
+    };
+    //Dialog取消
+    const cancel = () => {
+      console.log('取消');
+      state.visible = false;
+    };
+    onMounted(() => {
     });
     watchEffect(() => {
-      console.log(state.CheckboxValue);
     });
     return {
       ...toRefs(state),
       List,
+      openDialog,
+      notarize,
+      cancel,
     };
   },
 };

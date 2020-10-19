@@ -5,8 +5,8 @@ import store from './store';
 import './assets/css/initialize.css';
 import components from './components/components';
 const app = createApp(Root);
-app.use(router);
 app.use(store);
+app.use(router);
 app.use(components);
 app.mount('#app');
 

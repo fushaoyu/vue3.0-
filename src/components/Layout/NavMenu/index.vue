@@ -32,6 +32,7 @@
 <script type="ts">
 import { onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import axios from '../../../axios/index';
 export default {
   name: 'NavMenu',
@@ -40,6 +41,7 @@ export default {
   },
   setup(props, context) {
     const router = useRouter();
+    const store = useStore();
     const routerList = ref([]);
     const sign = ref(null);
     onMounted(() => {
@@ -53,6 +55,8 @@ export default {
       const url = 'https://mock.yonyoucloud.com/mock/4706/getMenu';
       axios('post', url).then((res) => {
         routerList.value = res;
+        store.commit('setRouterList', res)
+        sessionStorage.setItem("setRouterList",JSON.stringify(res))
       });
     };
     const openItem = (index, path) => {
@@ -72,7 +76,7 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.iconfont{
+.iconfont {
   font-size: 12px;
 }
 .itemClass {

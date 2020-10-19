@@ -8,6 +8,7 @@
           name="rdSpeed"
           :value="item.value"
           @input="changeValue"
+          v-model="modelValue"
         />{{ item.label }}
       </label>
     </div>
